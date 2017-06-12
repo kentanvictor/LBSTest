@@ -20,6 +20,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     public LocationClient mLocationClient;
     private TextView positionText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,27 +29,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         positionText = (TextView) findViewById(R.id.position_text_view);
         List<String> permissionList = new ArrayList<>();
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED)
-        {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) {
             permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
         }
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) !=
-                PackageManager.PERMISSION_GRANTED)
-        {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) !=
+                PackageManager.PERMISSION_GRANTED) {
             permissionList.add(Manifest.permission.READ_PHONE_STATE);
         }
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-                PackageManager.PERMISSION_GRANTED)
-        {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED) {
             permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
-        if (!permissionList.isEmpty())
-        {
+        if (!permissionList.isEmpty()) {
             String[] permissions = permissionList.toArray(new String[permissionList.size()]);
-            ActivityCompat.requestPermissions(MainActivity.this,permissions,1);
-        }else
-        {
+            ActivityCompat.requestPermissions(MainActivity.this, permissions, 1);
+        } else {
             requestLocation();
         }
     }
@@ -59,24 +55,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case 1:
-                if(grantResults.length > 0)
-                {
-                    for (int result : grantResults)
-                    {
-                        if(result != PackageManager.PERMISSION_GRANTED)
-                        {
-                            Toast.makeText(this , "必須同意所有權限才能使用本程序",Toast.LENGTH_SHORT).show();
+                if (grantResults.length > 0) {
+                    for (int result : grantResults) {
+                        if (result != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(this, "必須同意所有權限才能使用本程序", Toast.LENGTH_SHORT).show();
                             finish();
                             return;
                         }
                     }
                     requestLocation();
-                }else
-                {
-                    Toast.makeText(this,"發生未知錯誤",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "發生未知錯誤", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 break;
@@ -91,15 +82,14 @@ public class MainActivity extends AppCompatActivity {
             currentPosition.append("緯度：").append(location.getLatitude()).append("\n");
             currentPosition.append("經度：").append(location.getLongitude()).append("\n");
             currentPosition.append("定位方式：");
-            if(location.getLocType() == BDLocation.TypeGpsLocation)
-            {
+            if (location.getLocType() == BDLocation.TypeGpsLocation) {
                 currentPosition.append("GPS");
-            }else if (location.getLocType() == BDLocation.TypeNetWorkLocation)
-            {
+            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
                 currentPosition.append("網絡");
             }
             positionText.setText(currentPosition);
         }
+
         @Override
         public void onConnectHotSpotMessage(String s, int i) {
         }
