@@ -56,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initLocation() {
-        LocationClientOption  option = new LocationClientOption();
+        LocationClientOption option = new LocationClientOption();
         option.setScanSpan(5000);
         option.setIsNeedAddress(true);
-       option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
+        option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
         mLocationClient.setLocOption(option);
     }
 
