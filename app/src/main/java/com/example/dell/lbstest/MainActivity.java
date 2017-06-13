@@ -14,6 +14,8 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.MapView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +23,15 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     public LocationClient mLocationClient;
     private TextView positionText;
-
+    private MapView mapView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mLocationClient = new LocationClient(getApplicationContext());
         mLocationClient.registerLocationListener(new MyLocationListenter());
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+        mapView = (MapView) findViewById(R.id.bmapView);
         positionText = (TextView) findViewById(R.id.position_text_view);
         List<String> permissionList = new ArrayList<>();
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
@@ -62,11 +66,22 @@ public class MainActivity extends AppCompatActivity {
         option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
         mLocationClient.setLocOption(option);
     }
-
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        mapView.onResume();
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mLocationClient.stop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mapView.onPause();
     }
 
     @Override
