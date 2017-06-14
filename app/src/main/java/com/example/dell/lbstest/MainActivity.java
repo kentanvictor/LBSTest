@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private MapView mapView;
     private BaiduMap baiduMap;
     private boolean isFirstLocate = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,17 +63,16 @@ public class MainActivity extends AppCompatActivity {
             requestLocation();
         }
     }
-    private void navigateTo(BDLocation location)
-    {
-         if (isFirstLocate)
-         {
-             LatLng ll = new LatLng(location.getLatitude() , location.getLongitude());
-             MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
-             baiduMap.animateMapStatus(update);
-             update = MapStatusUpdateFactory.zoomTo(16f);
-             baiduMap.animateMapStatus(update);
-             isFirstLocate = false;
-         }
+
+    private void navigateTo(BDLocation location) {
+        if (isFirstLocate) {
+            LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+            MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
+            baiduMap.animateMapStatus(update);
+            update = MapStatusUpdateFactory.zoomTo(16f);
+            baiduMap.animateMapStatus(update);
+            isFirstLocate = false;
+        }
         MyLocationData.Builder locationBuilder = new MyLocationData.Builder();
         locationBuilder.latitude(location.getLatitude());
         locationBuilder.longitude(location.getLongitude());
@@ -92,12 +92,13 @@ public class MainActivity extends AppCompatActivity {
         option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
         mLocationClient.setLocOption(option);
     }
+
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         mapView.onResume();
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -152,9 +153,8 @@ public class MainActivity extends AppCompatActivity {
                 currentPosition.append("網絡");
             }
             positionText.setText(currentPosition);
-            if(location.getLocType() == BDLocation.TypeGpsLocation ||
-                    location.getLocType() == BDLocation.TypeGpsLocation)
-            {
+            if (location.getLocType() == BDLocation.TypeGpsLocation ||
+                    location.getLocType() == BDLocation.TypeGpsLocation) {
                 navigateTo(location);
             }
         }
